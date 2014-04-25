@@ -75,6 +75,7 @@ int main (int argc, char *argv[]) {
     }
 
     while (1) {
+        client_addr_len = sizeof(client_addr);
         client_fd = accept(sock_fd, (struct sockaddr *) &client_addr, &client_addr_len);
         if (client_fd == -1) {
             printf("Wating for connection\n");
