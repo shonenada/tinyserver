@@ -17,6 +17,8 @@ void handle_connection(int sockfd, struct sockaddr_in * client_addr_ptr) {
 
     int length = recv(sockfd, request, 500, 0);
 
+    printf("%s", request);
+
     ptr = strstr(request, " HTTP/");
 
     if (ptr == NULL) {
