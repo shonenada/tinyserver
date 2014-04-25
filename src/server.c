@@ -8,30 +8,11 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 
+#include "settings.h"
+#include "http_methods.h"
+#include "server_handler.h"
 
 #define WEB_PORT 8080
-
-
-void handle_connection(int sockfd, struct sockaddr_in * client_addr_ptr) {
-    unsigned char *ptr = NULL, request[500];
-
-    int length = recv(sockfd, request, 500, 0);
-
-    printf("%s", request);
-
-    ptr = strstr(request, " HTTP/");
-
-    if (ptr == NULL) {
-        printf("GET\n");
-    }
-    else {
-        *ptr = 0;
-        ptr = NULL;
-        printf("test\n");
-    }
-    shutdown(sockfd, SHUT_RDWR);
-}
-
 
 int main (int argc, char *argv[]) {
 
@@ -72,7 +53,7 @@ int main (int argc, char *argv[]) {
         if (client_fd == -1) {
             printf("Wating for connection\n");
         }
-        handle_connection(client_fd, &(client_addr));
+        handleConnection(client_fd, &(client_addr));
     }
 
     return 0;
