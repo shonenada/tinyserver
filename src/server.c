@@ -16,6 +16,32 @@
 
 int main (int argc, char *argv[]) {
 
+    pid_t pid;
+    pid = fork();
+    if (pid < 0) {
+        perror("fork");
+        exit(1);
+    }
+    if (pid != 0) {
+        exit(0);
+    }
+
+    pid = setsid();
+    if (pid < -1) {
+        perror("setsid");
+        exit(1);
+    }
+    int fd = open("/dev/null", O_RDWR, 0);
+    if (fd == -1) {
+        dup2(fd, STDIN_FILENO);
+        dup2(fd, STDOUT_FILENO);
+        dup2(fd, STDERR_FILENO);
+        if (fd > 2) {
+            close(fd);
+        }
+    }
+    umask(0000);
+
     int i;
     int sock_fd, client_fd;
 
